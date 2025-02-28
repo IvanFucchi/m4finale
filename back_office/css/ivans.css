@@ -1,0 +1,28 @@
+
+.text-truncate-custom {
+    max-width: 200px; /* Regola la larghezza in base alle tue necessità */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+.table-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    /* border-radius: 5px; */
+    display: block;
+    margin: auto;
+}
+
+.table-center {
+    text-align: center;
+    vertical-align: middle; /* Per centrare anche verticalmente */
+    font-size: 1.1rem; /* Aumenta leggermente la dimensione del testo */
+}
+
+/* Aumenta la grandezza del testo di description senza centrarlo */
+.text-truncate-custom {
+    font-size: 1rem;
+}

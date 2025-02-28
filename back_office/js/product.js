@@ -34,11 +34,11 @@ const fetchProductById = (id) => {
 
 // Funzione per riempire il form con i dati del prodotto
 const populateForm = (product) => {
-    document.getElementById("inputEmail4").value = product.name || "";
-    document.getElementById("exampleFormControlTextarea1").value = product.description || "";
-    document.getElementById("inputAddress").value = product.brand || "";
-    document.getElementById("inputAddress2").value = product.imageUrl || "";
-    document.getElementById("inputCity").value = product.price || "";
+    document.getElementById("productName").value = product.name || "";
+    document.getElementById("productDescription").value = product.description || "";
+    document.getElementById("productBrand").value = product.brand || "";
+    document.getElementById("productImageUrl").value = product.imageUrl || "";
+    document.getElementById("productPrice").value = product.price || "";
 
     // Cambia il titolo e il bottone
      document.getElementById("formTitle").textContent = "Update Product Info";
@@ -53,11 +53,11 @@ const handleFormSubmit = (event) => {
     const isEditing = productId !== null;
 
     const formData = {
-        name: document.getElementById("inputEmail4").value,
-        description: document.getElementById("exampleFormControlTextarea1").value,
-        brand: document.getElementById("inputAddress").value,
-        imageUrl: document.getElementById("inputAddress2").value,
-        price: parseFloat(document.getElementById("inputCity").value) // Assicura che sia un numero
+        name: document.getElementById("productName").value,
+        description: document.getElementById("productDescription").value,
+        brand: document.getElementById("productBrand").value,
+        imageUrl: document.getElementById("productImageUrl").value,
+        price: parseFloat(document.getElementById("productPrice").value) // Assicura che sia un numero
     };
 
     console.log("Dati inviati:", formData);

@@ -11,7 +11,7 @@ const fetchData = () => {
         headers: {
             Authorization: Bearer
         }
-    };
+    };  
 
     fetch("https://striveschool-api.herokuapp.com/api/product/", options)
         .then(response => {
@@ -64,21 +64,28 @@ const fetchData = () => {
                 actionTd.appendChild(buttonContainer);
                 tr.appendChild(actionTd);
 
-                // Creazione delle altre colonne dinamiche
+                // Creazione delle altre colonne dinamiche della Tabella dei prodotti
                 const nameTd = document.createElement("td");
                 nameTd.textContent = name;
+                nameTd.classList.add("text-truncate-custom");
+
 
                 const descriptionTd = document.createElement("td");
                 descriptionTd.textContent = description;
+                descriptionTd.classList.add("text-truncate-custom"); // Aggiunge la classe per l'elipsis..
 
+                /*const descriptionTd = document.createElement("td");
+                descriptionTd.textContent = description;
+                // descriptionTd.classList = "text-truncate"*/
                 const brandTd = document.createElement("td");
                 brandTd.textContent = brand;
+
 
                 const imageTd = document.createElement("td");
                 const img = document.createElement("img");
                 img.src = imageUrl;
                 img.alt = name;
-                img.width = 50;
+                img.classList.add("img-fluid", "rounded", "table-img");
                 imageTd.appendChild(img);
 
                 const idTd = document.createElement("td");
@@ -89,7 +96,7 @@ const fetchData = () => {
 
 
                 // Aggiunge le celle alla riga
-                tr.append(actionTd, nameTd, descriptionTd, brandTd, imageTd, idTd, priceTd);
+                tr.append(idTd, nameTd, descriptionTd, brandTd, imageTd, priceTd,actionTd);
 
                 return tr;
             });
