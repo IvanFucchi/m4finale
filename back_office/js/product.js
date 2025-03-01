@@ -43,6 +43,37 @@ const populateForm = (product) => {
     // Cambia il titolo e il bottone
      document.getElementById("formTitle").textContent = "Update Product Info";
      document.getElementById("submitBtn").textContent = "Save Changes";
+
+    //recupera id da URL
+     const productId = getProductIdFromUrl();
+
+     const deleteButton = document.createElement("button");
+     deleteButton.id = "deleteproduct";
+     deleteButton.classList.add("btn", "btn-danger", "mt-3");
+     deleteButton.innerHTML = '<i class="bi bi-trash"></i> Elimina Prodotto';
+
+     document.getElementById("productForm").appendChild(deleteButton);
+
+    //aggiunge l'event per eliminare il prodotto (click)
+     deleteButton.addEventListener("click", () => {
+        if (confirm("Sei sicuro di voler eliminare questo prodotto?")) {
+            fetch(`https://striveschool-api.herokuapp.com/api/product/${productId}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: Bearer
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Errore nell'eliminazione dell prodotto");
+                }
+                alert("Prodotto eliminato con successo!");
+                window.location.href = "index.html" //reinderizza alla pagina tables
+            })
+            .catch(error => console.error("Errore",error));
+        }
+
+     })
 };
 
 // Funzione per inviare i dati (POST per creazione, PUT per modifica)

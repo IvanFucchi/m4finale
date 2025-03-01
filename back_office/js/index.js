@@ -54,13 +54,15 @@ const fetchData = () => {
                 editButton.innerHTML = '<i class="bi bi-pencil-square"></i>';
                 editButton.dataset.id = _id;
 
+                /*
                 const deleteButton = document.createElement("button");
                 deleteButton.className = "btn btn-danger btn-sm d-flex justify-content-center align-items-center delete-button";
                 deleteButton.innerHTML = '<i class="bi bi-trash"></i>';
                 deleteButton.dataset.id = _id;
+                */
 
                 // Aggiunge i bottoni al container e alla cella
-                buttonContainer.append(editButton, deleteButton);
+                buttonContainer.append(editButton, /*deleteButton*/);
                 actionTd.appendChild(buttonContainer);
                 tr.appendChild(actionTd);
 
