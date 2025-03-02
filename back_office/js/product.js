@@ -52,7 +52,10 @@ const populateForm = (product) => {
      deleteButton.classList.add("btn", "btn-danger", "mt-3");
      deleteButton.innerHTML = '<i class="bi bi-trash"></i> Elimina Prodotto';
 
-     document.getElementById("productForm").appendChild(deleteButton);
+     setTimeout (() => {
+        document.getElementById("cardBody").appendChild(deleteButton);
+     },1000)  
+     
 
     //aggiunge l'event per eliminare il prodotto (click)
      deleteButton.addEventListener("click", () => {
