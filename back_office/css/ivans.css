@@ -128,5 +128,8 @@ p.mb-4 a {
 }
 
 
+#dataTable_filter {
+    display: none !important;
+}
 
 

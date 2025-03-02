@@ -204,3 +204,4 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("accordionSidebar").style.display = "block";
 document.getElementById("accordionSidebar").style.transform = "translateX(0)";
 
+
