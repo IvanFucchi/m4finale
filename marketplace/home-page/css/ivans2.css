@@ -1,0 +1,26 @@
+* {
+    outline: none!important;
+}
+
+
+
+#mainSection {
+    background-image: url('/marketplace/img/coffe-pattern\ .webp');
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Imposta tutte le card alla stessa altezza */
+}
+
+.card-body {
+    flex-grow: 1; /* Fa in modo che il corpo della card occupi tutto lo spazio disponibile */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distribuisce gli elementi in modo uniforme */
+}
+
+.card-footer {
+    margin-top: auto; /* Spinge il footer in basso */
+}
