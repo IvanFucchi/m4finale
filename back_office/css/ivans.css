@@ -1,6 +1,6 @@
-
 .text-truncate-custom {
-    max-width: 200px; /* Regola la larghezza in base alle tue necessità */
+    max-width: 200px;
+    /* Regola la larghezza in base alle tue necessità */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -18,11 +18,115 @@
 
 .table-center {
     text-align: center;
-    vertical-align: middle; /* Per centrare anche verticalmente */
-    font-size: 1.1rem; /* Aumenta leggermente la dimensione del testo */
+    vertical-align: middle;
+    /* Per centrare anche verticalmente */
+    font-size: 1.1rem;
+    /* Aumenta leggermente la dimensione del testo */
 }
 
 /* Aumenta la grandezza del testo di description senza centrarlo */
 .text-truncate-custom {
     font-size: 1rem;
 }
+
+#accordionSidebar {
+    background-color: #2d2c2a;
+}
+
+#content {
+    background-color: rgb(92, 91, 90);
+}
+
+#searchBtn {
+    background-color: orange;
+
+
+}
+
+#searchBtn:hover {
+    background-color: #e57b01;
+}
+
+
+
+/* 
+.form-control { 
+    border:solid; 
+    border-color: #2d2c2a;
+}
+*/
+
+#searchBox {
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+    /* Ombra morbida */
+    border-radius: 8px;
+    /* Smussa leggermente i bordi */
+    border: solid;
+    border-color: #2d2c2a;
+}
+
+#userName {
+    color: black;
+}
+
+#h1 {
+    color: orange;
+}
+
+p.mb-4 {
+    color: white;
+}
+
+p.mb-4 a {
+    color: orange;
+}
+
+.card-header h6 {
+    color: orange;
+}
+
+.card-header.py-3 {
+    background-color: #2d2c2a;
+}
+
+#h6ProdottiDisponibili{
+    color: orange;
+}
+
+.navbar .nav-link i {
+    color: #f5e6ca !important; /* Beige chiaro */
+}
+
+.navbar .nav-link i:hover {
+    color: #6f4e37 !important; /* Bruno caffè */
+}
+
+#toggleMenu {
+    color: #f5e6ca !important;
+
+}
+
+#toggleMenu:hover {
+    color: #6f4e37 !important;
+
+}
+
+/*
+.sidebar.toggled {
+    transform: translateX(-100%) !important; 
+    transition: transform 0.3s ease-in-out;
+}
+*/
+
+#accordionSidebar {
+    transform: translateX(0);
+    transition: transform 0.3s ease-in-out;
+}
+
+#accordionSidebar.toggled {
+    transform: translateX(-250px) !important; /* Sposta la sidebar fuori dallo schermo */
+}
+
+
+
+

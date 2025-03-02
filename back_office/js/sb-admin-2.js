@@ -10,6 +10,20 @@
     };
   });
 
+  $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
+    console.log("Bottone cliccato!");
+
+    if ($(".sidebar").hasClass("toggled")) {
+        $(".sidebar").removeClass("toggled");
+        $("body").removeClass("sidebar-toggled");
+        console.log("Sidebar chiusa!");
+    } else {
+        $(".sidebar").addClass("toggled");
+        $("body").addClass("sidebar-toggled");
+        console.log("Sidebar aperta!");
+    }
+});
+
   // Close any open menu accordions when window is resized below 768px
   $(window).resize(function() {
     if ($(window).width() < 768) {
@@ -54,3 +68,14 @@
   });
 
 })(jQuery); // End of use strict
+
+$(document).ready(function () {
+  console.log("jQuery script caricato!");
+
+  $("#sidebarToggleTop").on("click", function () {
+      console.log("Bottone cliccato!");
+      $("#accordionSidebar").toggleClass("toggled");
+      $("body").toggleClass("sidebar-toggled");
+  });
+});
+

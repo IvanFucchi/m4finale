@@ -1,4 +1,4 @@
-console.log("algibrasi");
+console.log("ciao");
 
 const Bearer = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2JjZDk4NmU3MDMzNzAwMTUzMTZkZDQiLCJpYXQiOjE3NDA0Mjk3NDAsImV4cCI6MTc0MTYzOTM0MH0.DtKRcaFpnihtCrd7cd9z3aPVtUND7VrKqJB3PZ9JC04";
 
@@ -158,4 +158,49 @@ const attachEditEventListeners = () => {
 
 // Esegui fetch quando il DOM è completamente caricato
 document.addEventListener("DOMContentLoaded", fetchData);
+
+//toggle sidebar
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("Script per sidebar caricato!");
+
+    const sidebar = document.getElementById("accordionSidebar"); // Sidebar
+    const toggleButton = document.getElementById("sidebarToggleTop"); // Bottone di toggle
+
+    if (toggleButton && sidebar) {
+        console.log("Bottone trovato, aggiungo evento...");
+
+        toggleButton.addEventListener("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            console.log("Bottone cliccato! Stato attuale:", sidebar.classList.contains("toggled"));
+
+            if (sidebar.classList.contains("toggled")) {
+                sidebar.classList.remove("toggled"); // ❌ Chiude la sidebar
+                document.body.classList.remove("sidebar-toggled");
+                console.log("Sidebar CHIUSA");
+            } else {
+                sidebar.classList.add("toggled"); // ✅ Apre la sidebar
+                document.body.classList.add("sidebar-toggled");
+                console.log("Sidebar APERTA");
+            }
+        });
+
+        window.addEventListener("resize", function () {
+            if (window.innerWidth >= 768) { // Cambia a seconda del breakpoint che usi
+                console.log("Schermo grande, sidebar riattivata");
+                sidebar.classList.remove("toggled"); // Rimuove la classe per mostrare la sidebar
+                document.body.classList.remove("sidebar-toggled");
+            }
+        });
+
+
+    } else {
+        console.error("❌ Sidebar o bottone non trovati!");
+    }
+});
+
+
+  document.getElementById("accordionSidebar").style.display = "block";
+document.getElementById("accordionSidebar").style.transform = "translateX(0)";
 

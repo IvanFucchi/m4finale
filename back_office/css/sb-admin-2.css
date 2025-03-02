@@ -10,6 +10,7 @@
  * Copyright 2011-2021 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+ 
 :root {
   --blue: #4e73df;
   --indigo: #6610f2;
@@ -24,7 +25,7 @@
   --white: #fff;
   --gray: #858796;
   --gray-dark: #5a5c69;
-  --primary: #4e73df;
+  /* --primary: #4e73df; */
   --secondary: #858796;
   --success: #1cc88a;
   --info: #36b9cc;
@@ -2357,14 +2358,13 @@ fieldset:disabled a.btn {
 
 .btn-primary {
   color: #fff;
-  background-color: #4e73df;
-  border-color: #4e73df;
+  /* border-color: #4e73df; */
 }
 
 .btn-primary:hover {
   color: #fff;
-  background-color: #2e59d9;
-  border-color: #2653d4;
+  /* background-color: #2e59d9; */
+  /* border-color: #2653d4; */
 }
 
 .btn-primary:focus, .btn-primary.focus {
