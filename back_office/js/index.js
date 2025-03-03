@@ -1,14 +1,12 @@
+let data = [];
+let originalData = [];
 let order = 0
 let orderBy = ""
-
-
+const searchInput = document.getElementById("searchBar")
 
 const Bearer = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2JjZDk4NmU3MDMzNzAwMTUzMTZkZDQiLCJpYXQiOjE3NDA0Mjk3NDAsImV4cCI6MTc0MTYzOTM0MH0.DtKRcaFpnihtCrd7cd9z3aPVtUND7VrKqJB3PZ9JC04";
-
-// Seleziona il tbody della tabella
 const outputElement = document.getElementById("output");
 
-// Funzione per caricare i dati dalla API e renderizzarli in tabella
 const fetchData = () => {
     const options = {
         headers: {
@@ -17,19 +15,18 @@ const fetchData = () => {
     };
 
     fetch("https://striveschool-api.herokuapp.com/api/product/", options)
-        .then(response => {
-            // console.log(response.status);
-            if (!response.ok) {
-                throw new Error("Errore nel caricamento dei dati");
-            }
-            return response.json();
-        })
-        .then(data => {
-            // console.log("Dati ricevuti:", data);
-            if (!data || data.length === 0) {
+        .then(response => response.json())
+        .then(fetchedData => {
+            if (!fetchedData || fetchedData.length === 0) {
                 console.warn("Nessun dato ricevuto dalla API.");
                 return;
             }
+
+            data = [...fetchedData]; 
+            originalData = [...fetchedData]; // Manteniamo i dati originali
+
+            renderProductz(data, outputElement);
+    
 
             // Controlla che l'elemento esista
             if (!outputElement) {
@@ -46,67 +43,20 @@ const fetchData = () => {
             document.querySelectorAll("th").forEach(th => {
                 th.addEventListener("click", () => {
                     const sortKey = th.dataset.sort;
-
-                    if (sortKey && sortKey === "name") {
-
-                        if (order === 0) {
-                            reorderedData = data.sort((b, a) => a.name.trim().localeCompare(b.name.trim()))
-                            order++
-                        } else {
-                            reorderedData = data.sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
-                            order = 0
-                        }
-                    }
-
-                    if (sortKey && sortKey === "brand") {
-
-                        if (order === 0) {
-                            reorderedData = data.sort((b, a) => a.brand.trim().localeCompare(b.brand.trim()))
-                            order++
-                        } else {
-                            reorderedData = data.sort((a, b) => a.brand.trim().localeCompare(b.brand.trim()))
-                            order = 0
-                        }
-                    }
-
-
-                    if (sortKey && sortKey === "price") {
-
-                        if (order === 0) {
-                            reorderedData = data.sort((b, a) => a.price - b.price)
-                            order++
-                        } else {
-                            reorderedData = data.sort((a, b) => a.price - b.price)
-                            order = 0
-                        }
-                    }
-
-                    renderProductz(reorderedData, outputElement)
-                })
-            })
-
-
-
-
-
-            /*const orderName = document.getElementById("order_name")
-            orderName.addEventListener("click", function () {
-
-                if(order === 0) {
-                    reorderedData = data.sort((b, a) => a.name.trim().localeCompare(b.name.trim()))
-                    order++
-                } else {
-                    reorderedData = data.sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
-                    order=0
-                }
-                
-                renderProductz(reorderedData, outputElement)
-
-            })
-
-            // console.log(data)
-            */
-
+                    if (!sortKey) return;
+            
+                    const compareFn = (a, b) => {
+                        if (sortKey === "price") return a.price - b.price;
+                        return a[sortKey].trim().localeCompare(b[sortKey].trim());
+                    };
+            
+                    reorderedData = order === 0 ? data.sort((a, b) => compareFn(b, a)) : data.sort(compareFn);
+                    order = 1 - order; // Toggle order between 0 and 1
+            
+                    renderProductz(reorderedData, outputElement);
+                });
+            });
+            
 
             renderProductz(reorderedData, outputElement)
 
@@ -116,6 +66,7 @@ const fetchData = () => {
         })
         .catch(error => console.error("Errore:", error));
 };
+
 
 function renderProductz(data, outputElement) {
     outputElement.innerHTML = "";
@@ -192,6 +143,24 @@ function renderProductz(data, outputElement) {
 
 document.addEventListener("DOMContentLoaded", fetchData);
 
+//searchBar
+searchInput.addEventListener("input", () => {
+    if (!originalData || originalData.length === 0) return;
+
+    const query = searchInput.value.toLowerCase().trim();
+    const filteredData = data.filter(item => 
+        item.name?.toLowerCase().includes(query) ||
+        item.brand?.toLowerCase().includes(query)
+    );
+
+    console.log("Risultati filtrati:", filteredData); // Debug
+
+    renderProductz(filteredData, outputElement);
+
+    // Riattacca gli eventi dopo il rendering
+    attachEditEventListeners();
+});
+
 // Funzione per eliminare un prodotto con una richiesta DELETE
 const deleteProduct = (id) => {
     if (!confirm("Sei sicuro di voler eliminare questo prodotto?")) return;
@@ -213,7 +182,7 @@ const deleteProduct = (id) => {
         .catch(error => console.error("Errore:", error));
 };
 
-// Funzione per aggiungere event listener ai bottoni delete
+// delete btn
 const attachDeleteEventListeners = () => {
     document.querySelectorAll(".delete-button").forEach(button => {
         button.addEventListener("click", (event) => {
@@ -223,7 +192,7 @@ const attachDeleteEventListeners = () => {
     });
 };
 
-// Funzione per aggiungere event listener ai bottoni edit
+// edit btn
 const attachEditEventListeners = () => {
     document.querySelectorAll(".edit-button").forEach(button => {
         button.addEventListener("click", (event) => {
@@ -253,11 +222,11 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("Bottone cliccato! Stato attuale:", sidebar.classList.contains("toggled"));
 
             if (sidebar.classList.contains("toggled")) {
-                sidebar.classList.remove("toggled"); // ❌ Chiude la sidebar
+                sidebar.classList.remove("toggled"); //Chiude la sidebar
                 document.body.classList.remove("sidebar-toggled");
                 console.log("Sidebar CHIUSA");
             } else {
-                sidebar.classList.add("toggled"); // ✅ Apre la sidebar
+                sidebar.classList.add("toggled"); // Apre la sidebar
                 document.body.classList.add("sidebar-toggled");
                 console.log("Sidebar APERTA");
             }
@@ -273,7 +242,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     } else {
-        console.error("❌ Sidebar o bottone non trovati!");
+        console.error("Sidebar o bottone non trovati!");
     }
 });
 

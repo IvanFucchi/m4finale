@@ -45,6 +45,7 @@
 
 #searchBtn:hover {
     background-color: #e57b01;
+    border-color: none;
 }
 
 
@@ -58,9 +59,7 @@
 
 #searchBox {
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
-    /* Ombra morbida */
     border-radius: 8px;
-    /* Smussa leggermente i bordi */
     border: solid;
     border-color: #2d2c2a;
 }
@@ -99,7 +98,7 @@ p.mb-4 a {
 }
 
 .navbar .nav-link i:hover {
-    color: #6f4e37 !important;
+    color: white!important;
     /* Bruno caffè */
 }
 
