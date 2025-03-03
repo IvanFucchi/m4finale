@@ -1,9 +1,9 @@
 console.log("Caricamento pagina prodotto...");
 
 
-
 const Bearer =  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2JjZDk4NmU3MDMzNzAwMTUzMTZkZDQiLCJpYXQiOjE3NDA0Mjk3NDAsImV4cCI6MTc0MTYzOTM0MH0.DtKRcaFpnihtCrd7cd9z3aPVtUND7VrKqJB3PZ9JC04";
 ;
+
 
 // Funzione per ottenere l'ID del prodotto dall'URL
 const getProductIdFromUrl = () => {
@@ -54,7 +54,7 @@ const populateForm = (product) => {
 
      setTimeout (() => {
         document.getElementById("cardBody").appendChild(deleteButton);
-     },1000)  
+     },)  
      
 
     //aggiunge l'event per eliminare il prodotto (click)

@@ -1,4 +1,7 @@
-console.log("ciao");
+let order = 0
+let orderBy = ""
+
+
 
 const Bearer = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2JjZDk4NmU3MDMzNzAwMTUzMTZkZDQiLCJpYXQiOjE3NDA0Mjk3NDAsImV4cCI6MTc0MTYzOTM0MH0.DtKRcaFpnihtCrd7cd9z3aPVtUND7VrKqJB3PZ9JC04";
 
@@ -11,107 +14,181 @@ const fetchData = () => {
         headers: {
             Authorization: Bearer
         }
-    };  
+    };
 
     fetch("https://striveschool-api.herokuapp.com/api/product/", options)
         .then(response => {
-            console.log(response.status);
+            // console.log(response.status);
             if (!response.ok) {
                 throw new Error("Errore nel caricamento dei dati");
             }
             return response.json();
         })
         .then(data => {
-                console.log("Dati ricevuti:", data);
-                if (!data || data.length === 0) {
-                    console.warn("Nessun dato ricevuto dalla API.");
-                    return;
-                }
+            // console.log("Dati ricevuti:", data);
+            if (!data || data.length === 0) {
+                console.warn("Nessun dato ricevuto dalla API.");
+                return;
+            }
 
             // Controlla che l'elemento esista
             if (!outputElement) {
-                
+
                 console.error("Elemento con ID 'output' non trovato nel DOM.");
                 return;
             }
 
-            
-
-            // Svuota la tabella prima di renderizzare i nuovi dati
-            outputElement.innerHTML = "";
-
-            const elements = data.map(({ _id, name, description, brand, imageUrl, price }) => {
-                const tr = document.createElement("tr");
-                tr.dataset.id = _id; // Aggiunge un attributo data-id per il riferimento
-
-                // Colonna azioni
-                const actionTd = document.createElement("td");
-                const buttonContainer = document.createElement("div");
-                buttonContainer.className = "d-flex justify-content-between align-items-center w-100 gap-2 h-100";
-
-                const editButton = document.createElement("button");
-                editButton.className = "btn btn-info btn-sm d-flex justify-content-center align-items-center edit-button";
-                editButton.innerHTML = '<i class="bi bi-pencil-square"></i>';
-                editButton.dataset.id = _id;
-
-                /*
-                const deleteButton = document.createElement("button");
-                deleteButton.className = "btn btn-danger btn-sm d-flex justify-content-center align-items-center delete-button";
-                deleteButton.innerHTML = '<i class="bi bi-trash"></i>';
-                deleteButton.dataset.id = _id;
-                */
-
-                // Aggiunge i bottoni al container e alla cella
-                buttonContainer.append(editButton, /*deleteButton*/);
-                actionTd.appendChild(buttonContainer);
-                tr.appendChild(actionTd);
-
-                // Creazione delle altre colonne dinamiche della Tabella dei prodotti
-                const nameTd = document.createElement("td");
-                nameTd.textContent = name;
-                nameTd.classList.add("text-truncate-custom");
+            let reorderedData = data.sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
+            // let reorderedData = data.sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
+            // const reorderedData = data.sort((b,a) => b.price - a.price)
 
 
-                const descriptionTd = document.createElement("td");
-                descriptionTd.textContent = description;
-                descriptionTd.classList.add("text-truncate-custom"); // Aggiunge la classe per l'elipsis..
+            document.querySelectorAll("th").forEach(th => {
+                th.addEventListener("click", () => {
+                    const sortKey = th.dataset.sort;
 
-                /*const descriptionTd = document.createElement("td");
-                descriptionTd.textContent = description;
-                // descriptionTd.classList = "text-truncate"*/
-                const brandTd = document.createElement("td");
-                brandTd.textContent = brand;
+                    if (sortKey && sortKey === "name") {
+
+                        if (order === 0) {
+                            reorderedData = data.sort((b, a) => a.name.trim().localeCompare(b.name.trim()))
+                            order++
+                        } else {
+                            reorderedData = data.sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
+                            order = 0
+                        }
+                    }
+
+                    if (sortKey && sortKey === "brand") {
+
+                        if (order === 0) {
+                            reorderedData = data.sort((b, a) => a.brand.trim().localeCompare(b.brand.trim()))
+                            order++
+                        } else {
+                            reorderedData = data.sort((a, b) => a.brand.trim().localeCompare(b.brand.trim()))
+                            order = 0
+                        }
+                    }
 
 
-                const imageTd = document.createElement("td");
-                const img = document.createElement("img");
-                img.src = imageUrl;
-                img.alt = name;
-                img.classList.add("img-fluid", "rounded", "table-img");
-                imageTd.appendChild(img);
+                    if (sortKey && sortKey === "price") {
 
-                const idTd = document.createElement("td");
-                idTd.textContent = _id;
+                        if (order === 0) {
+                            reorderedData = data.sort((b, a) => a.price - b.price)
+                            order++
+                        } else {
+                            reorderedData = data.sort((a, b) => a.price - b.price)
+                            order = 0
+                        }
+                    }
 
-                const priceTd = document.createElement("td");
-                priceTd.textContent = `${price} €`;
+                    renderProductz(reorderedData, outputElement)
+                })
+            })
 
 
-                // Aggiunge le celle alla riga
-                tr.append(idTd, nameTd, descriptionTd, brandTd, imageTd, priceTd,actionTd);
 
-                return tr;
-            });
 
-            // Aggiunge tutte le righe alla tabella
-            outputElement.append(...elements);
 
-            // Dopo aver creato la tabella, aggiunge gli event listener ai bottoni delete ed edit
+            /*const orderName = document.getElementById("order_name")
+            orderName.addEventListener("click", function () {
+
+                if(order === 0) {
+                    reorderedData = data.sort((b, a) => a.name.trim().localeCompare(b.name.trim()))
+                    order++
+                } else {
+                    reorderedData = data.sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
+                    order=0
+                }
+                
+                renderProductz(reorderedData, outputElement)
+
+            })
+
+            // console.log(data)
+            */
+
+
+            renderProductz(reorderedData, outputElement)
+
+
             attachDeleteEventListeners();
             attachEditEventListeners();
         })
         .catch(error => console.error("Errore:", error));
 };
+
+function renderProductz(data, outputElement) {
+    outputElement.innerHTML = "";
+
+    const elements = data.map(({ _id, name, description, brand, imageUrl, price }) => {
+        const tr = document.createElement("tr");
+        tr.dataset.id = _id; // Aggiunge un attributo data-id per il riferimento
+
+        // Colonna azioni
+        const actionTd = document.createElement("td");
+        const buttonContainer = document.createElement("div");
+        buttonContainer.className = "d-flex justify-content-between align-items-center w-100 gap-2 h-100";
+
+        const editButton = document.createElement("button");
+        editButton.className = "btn btn-info btn-sm d-flex justify-content-center align-items-center edit-button";
+        editButton.innerHTML = '<i class="bi bi-pencil-square"></i>';
+        editButton.dataset.id = _id;
+
+        /*
+        const deleteButton = document.createElement("button");
+        deleteButton.className = "btn btn-danger btn-sm d-flex justify-content-center align-items-center delete-button";
+        deleteButton.innerHTML = '<i class="bi bi-trash"></i>';
+        deleteButton.dataset.id = _id;
+        */
+
+        // Aggiunge i bottoni al container e alla cella
+        buttonContainer.append(editButton, /*deleteButton*/);
+        actionTd.appendChild(buttonContainer);
+        tr.appendChild(actionTd);
+
+        // Creazione delle altre colonne dinamiche della Tabella dei prodotti
+        const nameTd = document.createElement("td");
+        nameTd.textContent = name;
+        nameTd.classList.add("text-truncate-custom");
+
+
+        const descriptionTd = document.createElement("td");
+        descriptionTd.textContent = description;
+        descriptionTd.classList.add("text-truncate-custom"); // Aggiunge la classe per l'elipsis..
+
+        /*const descriptionTd = document.createElement("td");
+        descriptionTd.textContent = description;
+        // descriptionTd.classList = "text-truncate"*/
+        const brandTd = document.createElement("td");
+        brandTd.textContent = brand;
+
+
+        const imageTd = document.createElement("td");
+        const img = document.createElement("img");
+        img.src = imageUrl;
+        img.alt = name;
+        img.classList.add("img-fluid", "rounded", "table-img");
+        img.style.width = "60px"
+        imageTd.appendChild(img);
+
+        const idTd = document.createElement("td");
+        idTd.textContent = _id;
+
+        const priceTd = document.createElement("td");
+        priceTd.textContent = `${price} €`;
+
+
+        // Aggiunge le celle alla riga
+        tr.append(idTd, nameTd, descriptionTd, brandTd, imageTd, priceTd, actionTd);
+
+        return tr;
+    });
+
+    outputElement.append(...elements);
+
+
+    return elements
+}
 
 document.addEventListener("DOMContentLoaded", fetchData);
 
@@ -125,15 +202,15 @@ const deleteProduct = (id) => {
             Authorization: Bearer
         }
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error("Errore nell'eliminazione del prodotto");
-        }
-        console.log(`Prodotto con ID ${id} eliminato`);
-        // Dopo l'eliminazione, ricarica la lista aggiornata
-        fetchData();
-    })
-    .catch(error => console.error("Errore:", error));
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Errore nell'eliminazione del prodotto");
+            }
+            console.log(`Prodotto con ID ${id} eliminato`);
+            // Dopo l'eliminazione, ricarica la lista aggiornata
+            fetchData();
+        })
+        .catch(error => console.error("Errore:", error));
 };
 
 // Funzione per aggiungere event listener ai bottoni delete
@@ -161,13 +238,13 @@ document.addEventListener("DOMContentLoaded", fetchData);
 
 //toggle sidebar
 document.addEventListener("DOMContentLoaded", function () {
-    console.log("Script per sidebar caricato!");
+    // console.log("Script per sidebar caricato!");
 
     const sidebar = document.getElementById("accordionSidebar"); // Sidebar
     const toggleButton = document.getElementById("sidebarToggleTop"); // Bottone di toggle
 
     if (toggleButton && sidebar) {
-        console.log("Bottone trovato, aggiungo evento...");
+        // console.log("Bottone trovato, aggiungo evento...");
 
         toggleButton.addEventListener("click", function (e) {
             e.preventDefault();
@@ -201,7 +278,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-  document.getElementById("accordionSidebar").style.display = "block";
+document.getElementById("accordionSidebar").style.display = "block";
 document.getElementById("accordionSidebar").style.transform = "translateX(0)";
 
 
