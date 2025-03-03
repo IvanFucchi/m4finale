@@ -1,10 +1,10 @@
 const apiURL = "https://striveschool-api.herokuapp.com/api/product/";
 const bearerToken = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2JjZDk4NmU3MDMzNzAwMTUzMTZkZDQiLCJpYXQiOjE3NDA0Mjk3NDAsImV4cCI6MTc0MTYzOTM0MH0.DtKRcaFpnihtCrd7cd9z3aPVtUND7VrKqJB3PZ9JC04";
-let productsArray = []; // Array globale per contenere i prodotti
+let productsArray = [];
 
-const productsContainer = document.querySelector("#mainSection .row"); // Contenitore delle card
+const productsContainer = document.querySelector("#mainSection .row");
 
-// 🔹 Fetch per ottenere i prodotti dall'API
+
 async function fetchProducts() {
     try {
         const response = await fetch(apiURL, {
@@ -19,26 +19,26 @@ async function fetchProducts() {
             throw new Error(`Errore HTTP! Status: ${response.status}`);
         }
 
-        productsArray = await response.json(); // Salviamo i prodotti nell'array globale
-        renderProducts(productsArray); // Renderizziamo le card
+        productsArray = await response.json();
+        renderProducts(productsArray);
     } catch (error) {
         console.error("Errore nel caricamento dei prodotti:", error);
     }
 }
 
-// 🔹 Funzione per accorciare il testo delle descrizioni
+
 function truncateText(text, maxLength) {
     return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
 }
 
-// 🔹 Funzione per mostrare i prodotti nel DOM
+
 function renderProducts(products) {
     if (!productsContainer) {
         console.error("Elemento productsContainer non trovato!");
         return;
     }
 
-    productsContainer.innerHTML = ""; // Pulisce eventuali contenuti esistenti
+    productsContainer.innerHTML = ""; 
     products.forEach((product) => {
         const cardHTML = `
             <div class="col mb-5">
@@ -62,7 +62,7 @@ function renderProducts(products) {
         productsContainer.innerHTML += cardHTML;
     });
 
-    // 🔹 Aggiungiamo il click su ogni card per andare alla pagina dettaglio
+    
     document.querySelectorAll(".product-card").forEach(card => {
         card.addEventListener("click", function () {
             const productId = this.getAttribute("data-id");
@@ -71,10 +71,10 @@ function renderProducts(products) {
     });
 }
 
-// 🔹 Avvia il recupero dei prodotti
+
 document.addEventListener("DOMContentLoaded", fetchProducts);
 
-// 🔹 Funzione per cambiare lo sfondo in modo casuale
+
 function setRandomBackground() {
     const imageCount = 12;
     const randomIndex = Math.floor(Math.random() * imageCount) + 1;
@@ -96,5 +96,5 @@ function setRandomBackground() {
     activeBg.style.opacity = "0";
 }
 
-setInterval(setRandomBackground, 5000); // Cambia immagine ogni 5 secondi
+setInterval(setRandomBackground, 5000);
 document.addEventListener("DOMContentLoaded", setRandomBackground);
